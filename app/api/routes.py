@@ -7,6 +7,8 @@ from app.domain.entities import Entity
 from app.services.entity_registry import EntityRegistry
 from app.schemas.entity_schemas import EntityData, EntityDefinition
 from app.services.validation_helper import validate_existing_data
+from app.utils.validation import validate_relationships
+
 
 router = APIRouter()
 registry = EntityRegistry()
@@ -22,19 +24,26 @@ def get_current_user(authorization: str = Header(...)):
     return payload["sub"]
 
 @router.post("/define")
-def define_entity(definition: EntityDefinition, user: str = Depends(get_current_user)):
-    if user != "admin":
-        raise HTTPException(status_code=403, detail="Acceso denegado. Solo el administrador puede definir entidades.")
+def define_entity(definition: EntityDefinition):
+    # Validaciones básicas
     if definition.name in registry.definitions:
         raise HTTPException(status_code=400, detail="Entidad ya registrada")
     if not definition.fields:
         raise HTTPException(status_code=400, detail="Debe definir al menos un campo")
-    entity = EntityDefinition(**definition.model_dump())
-    registry.register(entity)
+    # Validar relaciones
+    print(definition.schema)
+    for field_name, field in definition.fields.items():
+        if field.relation and field.relation not in registry.definitions:
+            raise HTTPException(
+                status_code=400,
+                detail=f"El campo '{field_name}' hace referencia a una entidad inexistente: '{field.relation}'"
+            )
+    # Registrar entidad
+    registry.register(definition)
     return {"message": f"Entidad '{definition.name}' registrada correctamente."}
 
 @router.post("/{entity}")
-def create_dynamic(entity: str, payload: dict, user: str = Depends(get_current_user)):
+def create_dynamic(entity: str, payload: dict):
     try:
         definition = registry.get_definition(entity)
     except KeyError:
@@ -104,3 +113,19 @@ def update_entity_definition(entity_name: str, definition: EntityDefinition, use
         }
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+    
+@router.post("/{entity}")
+def create_data(entity: str, data: dict):
+    if entity not in registry.definitions:
+        raise HTTPException(status_code=404, detail="Entidad no registrada")
+
+    # Validar campos relacionales
+    validate_relationships(entity, data)
+
+    registry.data.setdefault(entity, [])
+
+    if "id" not in data:
+        data["id"] = len(registry.data[entity]) + 1
+
+    registry.data[entity].append(data)
+    return {"message": f"Dato agregado a '{entity}'", "data": data}

@@ -7,6 +7,10 @@ class EntityData(BaseModel):
 class UpdateEntityData(BaseModel):
     data: Dict[str, str | int | float | bool]
 
+class EntityField(BaseModel):
+    type: str
+    relation: Optional[str] = None
+
 class EntityDefinition(BaseModel):
     name: str
-    fields: Dict[str, str]  # Ej: {"nombre": "str", "edad": "int"}
+    fields: Dict[str, EntityField]
