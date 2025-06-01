@@ -1,38 +1,38 @@
-# Abstract Entity Manager – Backend
+# 🧩 Abstract Entity Manager – Backend
 
-Este es un backend abstracto construido con **FastAPI** y **Pydantic**, que permite definir entidades y operar sobre sus datos sin depender de una base de datos fija. Soporta validaciones dinámicas, autenticación JWT, y un patrón Repository extensible.
-
----
-
-## 🚀 Funcionalidades
-
-- Definición dinámica de entidades (`/define`)
-- CRUD de datos para cualquier entidad
-- Validación automática con Pydantic
-- Autenticación JWT con roles (`admin`, `user`)
-- Implementación por defecto en memoria
-- Interfaz desacoplada del motor de base de datos
+This is an abstract backend built with **FastAPI** and **Pydantic**, designed to define entities and operate on their data without relying on a fixed database. It supports dynamic validation, JWT authentication, and an extensible Repository pattern.
 
 ---
 
-## 🛠️ Stack
+## 🚀 Features
+
+- 🔧 Dynamic entity definition (`/define`)
+- 📋 CRUD operations for any entity
+- ✅ Automatic validation with Pydantic
+- 🔐 JWT authentication with roles (`admin`, `user`)
+- 🧠 In-memory implementation by default
+- 🧱 Database-agnostic architecture
+
+---
+
+## 🛠️ Tech Stack
 
 - Python 3.11+
 - FastAPI
 - Pydantic
-- PyJWT o python-jose
+- PyJWT or python-jose
 - Uvicorn
-- SQLAlchemy (opcional para base real)
+- SQLAlchemy *(optional for real databases)*
 
 ---
 
-## 📦 Instalación
+## 📦 Installation
 
 ```bash
-git clone https://github.com/tu-usuario/abstract-entity-manager
+git clone https://github.com/your-username/abstract-entity-manager
 cd abstract-entity-manager
 python -m venv venv
-source venv/bin/activate  # en Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
