@@ -39,8 +39,11 @@ def create_dynamic(entity: str, payload: dict, user: str = Depends(get_current_u
         definition = registry.get_definition(entity)
     except KeyError:
         raise HTTPException(status_code=404, detail="Entidad no registrada")
-
     model_cls = create_pydantic_model(definition)
+    if not model_cls:
+        raise HTTPException(status_code=500, detail="Error al crear el modelo dinámico")
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="El payload debe ser un objeto JSON válido")
     validated = model_cls(**payload)  # lanza ValidationError si falla
     return service.create_item(entity, validated.dict())
 
