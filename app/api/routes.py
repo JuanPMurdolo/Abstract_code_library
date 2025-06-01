@@ -23,7 +23,13 @@ def get_current_user(authorization: str = Header(...)):
 
 @router.post("/define")
 def define_entity(definition: EntityDefinition, user: str = Depends(get_current_user)):
-    entity = EntityData(definition.name, definition.fields)
+    if user != "admin":
+        raise HTTPException(status_code=403, detail="Acceso denegado. Solo el administrador puede definir entidades.")
+    if definition.name in registry.definitions:
+        raise HTTPException(status_code=400, detail="Entidad ya registrada")
+    if not definition.fields:
+        raise HTTPException(status_code=400, detail="Debe definir al menos un campo")
+    entity = EntityDefinition(**definition.model_dump())
     registry.register(entity)
     return {"message": f"Entidad '{definition.name}' registrada correctamente."}
 
