@@ -31,7 +31,6 @@ class SQLAlchemyRepository(AbstractRepository):
             rows = result.fetchall()
             return [json.loads(r[0]) for r in rows]
 
-    # implementá `get`, `update`, `delete` igual
     async def get(self, entity_name: str, item_id: str) -> dict:
         async with self.session_factory() as session:
             result = await session.execute(

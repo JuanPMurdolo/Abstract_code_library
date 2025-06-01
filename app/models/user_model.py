@@ -3,5 +3,5 @@ from typing import Literal
 
 class User(BaseModel):
     username: str
-    password: str  # para demo, en real usar hash
+    password: str 
     role: Literal["admin", "user"]

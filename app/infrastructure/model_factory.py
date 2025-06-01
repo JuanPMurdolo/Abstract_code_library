@@ -1,5 +1,5 @@
 from pydantic import create_model
-from domain.entities import Entity
+from app.domain.entities import Entity
 from typing import Any, Dict, Type
 
 type_map = {

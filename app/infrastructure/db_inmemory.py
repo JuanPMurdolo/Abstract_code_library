@@ -1,6 +1,6 @@
 import uuid
 from typing import Dict, List
-from domain.repositories import AbstractRepository
+from app.domain.repositories import AbstractRepository
 
 class InMemoryRepository(AbstractRepository):
     def __init__(self):

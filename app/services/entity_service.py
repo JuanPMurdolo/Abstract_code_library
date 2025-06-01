@@ -1,4 +1,4 @@
-from domain.repositories import AbstractRepository
+from app.domain.repositories import AbstractRepository
 
 class EntityService:
     def __init__(self, repository: AbstractRepository):

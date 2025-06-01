@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Header
-from app.auth.jwt_utils import verify_token
+from app.auth.jwt_utils import create_token, verify_token
 from app.services.model_factory import create_pydantic_model
 from app.services.entity_service import EntityService
 from app.infrastructure.db_inmemory import InMemoryRepository

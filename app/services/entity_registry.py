@@ -1,4 +1,4 @@
-from domain.entities import Entity
+from app.domain.entities import Entity
 from typing import Dict
 
 class EntityRegistry:

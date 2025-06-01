@@ -29,8 +29,8 @@ This is an abstract backend built with **FastAPI** and **Pydantic**, designed to
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/your-username/abstract-entity-manager
-cd abstract-entity-manager
+git clone https://github.com/JuanPMurdolo/Abstract_code_library
+cd Abstract_code_library/app
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
