@@ -7,6 +7,15 @@ type_map = {
     "int": (int, ...),
     "float": (float, ...),
     "bool": (bool, ...),
+    "list": (list, ...),
+    "dict": (dict, ...),
+    "datetime": (str, ...),  # Assuming datetime is serialized as ISO string
+    "date": (str, ...),      # Assuming date is serialized as ISO string
+    "time": (str, ...),      # Assuming time is serialized as ISO string
+    "uuid": (str, ...),      # Assuming UUID is serialized as string
+    "bytes": (bytes, ...),   # Assuming bytes are serialized as base64 string
+    "any": (Any, ...),       # Generic type for any data
+    "object": (dict, ...),   # Generic object type
 }
 
 def create_pydantic_model(entity: Entity) -> Type:
